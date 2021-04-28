@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Record</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper grey lighten-2">
+        <a href="/" class="brand-logo center black-text">Notary</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/clients" class="black-text">Clients</a></li>
+            <li><a href="/contracts" class="black-text">Contracts</a></li>
+            <li><a href="/services" class="black-text">Services</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="col s4 center">
+        <h3>Contract </h3>
+        <br><br>
+        <h6 th:text="'№' + ${contract.getId()}">№</h6>
+        <br><br>
+        <h6 th:text="'Name: '+${contract.getClient().name} + ' ' + ${contract.getClient().surname}">Client</h6>
+        <br><br>
+        <h6 th:text="'Service: '+${contract.getService().name}">Service</h6>
+        <br><br>
+        <h6 th:text="'Commission: '+${contract.getCommission()} + '%'">Commission</h6>
+        <br><br>
+        <h6 th:text="'Sum: '+ ${contract.getTotalSum()} + '$'">Sum</h6>
+        <br><br>
+        <h6 th:text="'Date: '+${contract.getDate()}">Date</h6>
+        <br><br>
+        <h6 style="width: 500px; margin-left: auto; margin-right: auto" th:text="'Description: '+${contract.getService().description}"></h6>
+        <br><br>
+
+    </div>
+</body>
+</html>

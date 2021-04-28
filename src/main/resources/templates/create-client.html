@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create client</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper grey lighten-2">
+        <a href="/" class="brand-logo center black-text">Notary</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/clients" class="black-text">Clients</a></li>
+            <li><a href="/contracts" class="black-text">Contracts</a></li>
+            <li><a href="/services" class="black-text">Services</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="row" style="width: 600px;">
+    <div style="margin-left:  42%"><i class="large material-icons">account_box</i></div>
+    <form class="col s12" action="/clients/create" method="post">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="name" name="name" type="text" class="validate">
+                <label for="name">First Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="surname" name="surname" type="text" class="validate">
+                <label for="surname">Last Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="employment" name="employment" type="text" class="validate">
+                <label for="employment">Employment</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="address" name="address" type="text" class="validate">
+                <label for="address">Address</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="contact" name="contact" type="text" class="validate">
+                <label for="contact">Contact</label>
+            </div>
+        </div>
+        <button class="waves-effect red accent-2 btn-large" style="margin-left: 38%" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+</div>
+</body>
+</html>

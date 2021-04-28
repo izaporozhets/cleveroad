@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<nav>
+    <div class="nav-wrapper grey lighten-2">
+        <a href="/" class="brand-logo center black-text">Notary</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/clients" class="black-text">Clients</a></li>
+            <li><a href="/contracts" class="black-text">Contracts</a></li>
+            <li><a href="/services" class="black-text">Services</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <a style="float: left; width: auto" class="black-text" href="/clients"><h1>Clients</h1></a>
+
+    <div style="float:left; margin-top: 80px; margin-left: 50px">
+        <form class="searchForm" action="/clients/search" method="get">
+            <input class="search" type="search" name="search">
+            <i class="fa fa-search"></i>
+        </form>
+    </div>
+
+    <span style="color: darkred;float:left; margin-top: 80px;" th:if="${error} != null" th:text="'Erorr: '+${error}"></span>
+
+    <div style="position: absolute">
+        <h5 style="color: brown" th:if="${clientList} == null">Nothing was found</h5>
+        <div  th:unless="${clientList == null}">
+            <h5 style="color: brown" th:if="${clientList.isEmpty()}">Nothing was found</h5>
+        </div>
+    </div>
+
+    <a href="/clients/create"><i style="float: right; margin-top: 59px; margin-right: 5%" class="medium material-icons">person_add</i></a>
+
+    <table class="table table-striped highlight">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Employment
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Contacts
+            </th>
+
+            <th> Actions </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clientList}">
+            <td th:text="${client.getName()} + ' ' + ${client.getSurname()}"></td>
+            <td th:text="${client.getEmployment()}"></td>
+            <td th:text="${client.getAddress()}"></td>
+            <td th:text="${client.getContact()}"></td>
+            <td>
+                <a href="#"><i class="material-icons">settings</i></a>
+                <a th:href="@{'/contracts/search/client/' + ${client.getId()}}">
+                    <i class="material-icons">low_priority</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+
+<style>
+    form{
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        transition: all 1s;
+        width: 50px;
+        height: 50px;
+        background: white;
+        box-sizing: border-box;
+        border-radius: 25px;
+        border: 4px solid white;
+        padding: 5px;
+    }
+
+    input{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20%;;
+        height: 42.5px;
+        line-height: 30px;
+        outline: 0;
+        border: 0;
+        display: none;
+        font-size: 1em;
+        border-radius: 20px;
+        padding: 0 20px;
+    }
+
+    .fa{
+        box-sizing: border-box;
+        padding: 10px;
+        width: 42.5px;
+        height: 42.5px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 50%;
+        color: #07051a;
+        text-align: center;
+        font-size: 1.2em;
+        transition: all 1s;
+    }
+
+    form:hover{
+        width: 200px;
+        cursor: pointer;
+    }
+
+    form:hover input{
+        display: block;
+    }
+
+    form:hover .fa{
+        background: #07051a;
+        color: white;
+    }
+</style>

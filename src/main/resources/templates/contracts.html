@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contracts</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!--Import materialize.css-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<nav>
+    <div class="nav-wrapper grey lighten-2">
+        <a href="/" class="brand-logo center black-text">Notary</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/clients" class="black-text">Clients</a></li>
+            <li><a href="/contracts" class="black-text">Contracts</a></li>
+            <li><a href="/services" class="black-text">Services</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+
+    <a style="float: left; width: auto" class="black-text" href="/contracts"><h1>Contracts</h1></a>
+
+    <div style="float:left; margin-top: 80px; margin-left: 50px">
+        <form class="searchForm" action="/contracts/search" method="get">
+            <input class="search" type="search" name="search">
+            <i class="fa fa-search"></i>
+        </form>
+    </div>
+
+    <div style="float:left; margin-top: 59px; margin-left: 50px">
+        <form class="center" id="dateSubmit" action="/contracts/search" method="get">
+            <i class="material-icons black-text">date_range</i>
+            <input style="width: 50px" type="text" class="datepicker" name="search">
+        </form>
+    </div>
+
+    <span style="color: darkred;float:left; margin-top: 80px;" th:if="${error} != null" th:text="'Erorr: '+${error}"></span>
+
+    <a href="/contracts/create"><i style="float: right; margin-top: 59px; margin-right: 5%" class="medium material-icons">note_add</i></a>
+
+    <div style="position: absolute">
+        <h5 style="color: brown" th:if="${contractList} == null">Nothing was found</h5>
+        <div  th:unless="${contractList == null}">
+            <h5 style="color: brown" th:if="${contractList.isEmpty()}">Nothing was found</h5>
+        </div>
+    </div>
+
+    <table class="table table-striped highlight">
+        <thead>
+        <tr>
+            <th> № </th>
+            <th> Client </th>
+            <th> Service </th>
+            <th> Commission </th>
+            <th> Sum </th>
+            <th> Date </th>
+            <th> Actions </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contract : ${contractList}">
+            <td th:text="${contract.getId()}"></td>
+            <td th:text="${contract.getClient().getName()} + ' ' + ${contract.getClient().getSurname()}"></td>
+            <td th:text="${contract.getService().getName()}"></td>
+            <td th:text="${contract.getCommission()} + '%'"></td>
+            <td th:text="${contract.getTotalSum()} + '$'"></td>
+            <td th:text="${contract.getDate()}"></td>
+            <td>
+                <a th:href="@{'/contracts/info/' + ${contract.getId()}}"><i class="material-icons">dvr</i></a>
+                <a th:href="@{'/report/pdf/' + ${contract.getId()}}"><i class="material-icons">picture_as_pdf</i></a>
+                <a th:href="@{'/report/html/' + ${contract.getId()}}"><i class="material-icons">chrome_reader_mode</i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    function Cancel() {
+        if(!this.hasEvent) {
+            this.hasEvent = true;
+            console.log('Clicked on cancel btn:', this.cancelBtn);
+        }
+    }
+    function Done() {
+        if(!this.hasEvent) {
+            this.hasEvent = true;
+            $("#dateSubmit").submit();
+        }
+    }
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            onOpen: function(e) {
+                var that = this;
+                that.hasEvent = false;
+                this.cancelBtn.addEventListener('click', Cancel.bind(that))
+                this.doneBtn.addEventListener('click', Done.bind(that))
+            },
+            onClose: function(e) {
+                var that = this;
+                this.cancelBtn.removeEventListener('click', Cancel.bind(that))
+                this.doneBtn.removeEventListener('click', Done.bind(that))
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
+<style>
+    .searchForm{
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        transition: all 1s;
+        width: 50px;
+        height: 50px;
+        background: white;
+        box-sizing: border-box;
+        border-radius: 25px;
+        border: 4px solid white;
+        padding: 5px;
+    }
+
+
+    .search{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20%;;
+        height: 42.5px;
+        line-height: 30px;
+        outline: 0;
+        border: 0;
+        display: none;
+        font-size: 1em;
+        border-radius: 20px;
+        padding: 0 20px;
+    }
+
+    .fa{
+        box-sizing: border-box;
+        padding: 10px;
+        width: 42.5px;
+        height: 42.5px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 50%;
+        color: #07051a;
+        text-align: center;
+        font-size: 1.2em;
+        transition: all 1s;
+    }
+
+    .searchForm:hover{
+        width: 200px;
+        cursor: pointer;
+    }
+
+    .searchForm:hover input{
+        display: block;
+    }
+
+    .searchForm:hover .fa{
+        background: #07051a;
+        color: white;
+    }
+</style>
